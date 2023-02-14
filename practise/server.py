@@ -1,45 +1,60 @@
+import sys
 import socket
-import threading
+import selectors
+import types
 
-class conexion():
-    def __init__(self,ip="127.0.0.1", port=4444):
-        self.ip = ip
-        self.port = port
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.bind((self.ip, self.port))
-        self.socket.listen(10)
-        self.socket.setblocking(False)
-        self.clientes = []
-        aceptar = threading.Thread(target=self.aceptarCon)
-        procesar = threading.Thread(target=self.procesarCon)
+sel = selectors.DefaultSelector()
 
-        aceptar.daemon = True
-        aceptar.start()
+# ...
 
-        procesar.daemon = True
-        procesar.start()
+host, port = sys.argv[1], int(sys.argv[2])
+lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+lsock.bind((host, port))
+lsock.listen()
+print(f"Listening on {(host, port)}")
+lsock.setblocking(False)
+sel.register(lsock, selectors.EVENT_READ, data="hola")
 
+def accept_wrapper(sock):
+    conn, addr = sock.accept()  # Should be ready to read
+    print(f"Accepted connection from {addr}")
+    conn.setblocking(False)
+    data = types.SimpleNamespace(addr=addr, inb=b"", outb=b"")
+    events = selectors.EVENT_READ | selectors.EVENT_WRITE
+    sel.register(conn, events, data=data)
+def service_connection(key, mask):
+    sock = key.fileobj
+    data = key.data
+    if mask & selectors.EVENT_READ:
+        recv_data = sock.recv(1024)  # Should be ready to read
+        if recv_data:
+            print ("Primero se hace esto")
+            data.outb += recv_data
+        else:
+            print(f"Closing connection to {data.addr}")
+            sel.unregister(sock)
+            sock.close()
+    if mask & selectors.EVENT_WRITE:
+        
+        if data.outb:
+            print(key.data)
+            print(f"Echoing {data.outb!r} to {data.addr}")
+            sent = sock.send(data.outb)  # Should be ready to write
+            data.outb = data.outb[sent:]
 
-    def aceptarCon(self):
-        while True:
-            try:
-                conexion, add = self.socket.accept()
-                conexion.setblocking(False)
-                self.clientes.append(conexion)
-            except Exception as e:
-                print("Error en aceptarCon:", e)
-
-    def procesarCon(self):
-        while True:
-            if len(self.clientes) > 0:
-                for c in self.clientes:
-                    try:
-                        data = c.recv(1024).decode('utf-8')
-                        if data:
-                            print(data)
-                    except Exception as e:
-                        print("Error en procesarCon:", e)
-
-
-c = conexion()
-
+try:
+    while True:
+        events = sel.select(timeout=None)
+        # Mask es el tipo de Evento que ocurrira
+        # key.fileobj es la conexión del socket
+        for key, mask in events:
+            if key.data == "hola":
+                print(key.fileobj)
+                accept_wrapper(key.fileobj)
+            else:
+                #print ("gggss",key.data)
+                service_connection(key, mask)
+except KeyboardInterrupt:
+    print("Caught keyboard interrupt, exiting")
+finally:
+    sel.close()
