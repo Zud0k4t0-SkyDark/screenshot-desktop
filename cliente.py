@@ -7,10 +7,17 @@ def def_handler(sig, frame):
     sys.exit(1)
 
 signal.signal(signal.SIGINT, def_handler)
-clear = subprocess.run("powershell clear")
+try :
+    clear = subprocess.run("powershell clear")
+except:
+    pass
+
+ip = input(str("Ip\n=> "))
+port = input(str("Port\n=> "))
+
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     try: 
-        s.connect(("127.0.0.1", 4444))
+        s.connect((ip, port))
     except:
         print ("\n\n[red] [[/red][yellow]![/yellow][red]][/red] [green]The Server is not ON[/green]\n\n")
         sys.exit(1)
