@@ -3,7 +3,7 @@ import signal, sys, subprocess
 from rich import print
 
 def def_handler(sig, frame):
-    print ("\n\n Saliendo....")
+    print ("\n\n Saliendo....\n\n")
     sys.exit(1)
 
 signal.signal(signal.SIGINT, def_handler)
@@ -12,7 +12,7 @@ try :
 except:
     pass
 
-ip = input(str("Ip\n=> "))
+ip =  input("IP\n==> ")
 port = int(input("Port\n==> "))
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
