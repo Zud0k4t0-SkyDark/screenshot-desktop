@@ -13,6 +13,7 @@ except:
     pass
 
 ip =  input("IP\n==> ")
+ip = ip.strip("//")[1]
 port = int(input("Port\n==> "))
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:

@@ -12,10 +12,10 @@ import multiprocessing
 # Kill Session Server with Powershell command
 
 #Get-Process | Select-Object Id,ProcessName | findstr Taskmgr
-
 def def_handler(sig, frame):
-    print ("\n Saliendo del Programa....")
+    print("[!]  Saliendo....\n\n")
     sys.exit(1)
+
 signal.signal(signal.SIGINT, def_handler)
 
 option = options
@@ -25,7 +25,7 @@ option = options
 def image():
     path_image = option.capture_image("screenshot_desktop")
     option.send_image(path_image)
-    remove_image = subprocess.run("powershell rm -Path {} -Force".format(path_image), shell=True)
+    #remove_image = subprocess.run("powershell rm -Path {} -Force".format(path_image), shell=True)
 
 def key_press(key):
     if key == keyboard.Key.ctrl_l:
@@ -43,14 +43,16 @@ host = "127.0.0.1"
 
 def mouse_move(letter_option):
     if letter_option == "a":
-        pyautogui.moveTo()
+        pyautogui.moveTo(294, 220)
     elif letter_option == "b":
-        pyautogui.moveTo()
+        pyautogui.moveTo(1501, 220)
     elif letter_option == "c":
-        pyautogui.moveTo()
+        pyautogui.moveTo(283, 814)
     elif letter_option == "d":
-        pyautogui.moveTo()
+        pyautogui.moveTo(1539, 766)
 
+#294 220		1501 220
+#283 814		1539 766
 
 # Servidor
 print ("[red]######################[/red][yellow]~~[/yellow]Inciado el Servidor[yellow]~~[/yellow][green]@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@[/green]")
