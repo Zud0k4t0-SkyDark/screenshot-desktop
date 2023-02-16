@@ -90,12 +90,12 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             set_email = "juanmapipa4@gmail.com"
             def menu_image(name_image="patata", email="juanmapipa4@gmail.com"):
                 print ('''
-                    Menu of Capture Image: 
-                        [blue][1][/blue] [purple italic]Image Name (default={})[/purple italic]
-                        [blue][2][/blue] [purple italic]Email (default={})[/purple italic]
-                        [blue][3][/blue] [purple italic]Send[/purple italic]
-                        [blue][4][/blue] [purple italic]Show[/purple italic]
-                        [blue][5][/blue] [purple italic]Exit[/purple italic]
+            [green]Menu Capture Image: [/green]
+            [blue][1][/blue] [purple italic]Image Name[/purple italic] [yellow](default={})[/yellow]
+            [blue][2][/blue] [purple italic]Email[/purple italic] [yellow](default={})[/yellow]
+            [blue][3][/blue] [purple italic]Send[/purple italic]
+            [blue][4][/blue] [purple italic]Show[/purple italic]
+            [blue][5][/blue] [purple italic]Exit[/purple italic]
                 '''.format(name_image, email))
             menu_image()
             while True:
