@@ -132,7 +132,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                         sys.exit(1)
 
                 else:
-                    print ("Enter a number \/0-0\/")
+                    print ("\n\n[red italic][!][/red italic] [yellow]Enter a number[yellow] [purple]\/0-0\/[/purple]")
                 # Recived Status Image
                 #response_Image = s.recv(1024).decode("utf-8")
                 #print(response_Image)
@@ -150,8 +150,12 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.send(letter_option.encode("utf-8"))
 
         elif data_Send == "close" or data_Send == "exit" or data_Send == "x" or data_Send == "3":
-            s.send(data_Send.encode("utf-8"))
-            sys.exit(1)
+            try:
+                s.send(data_Send.encode("utf-8"))
+                sys.exit(1)
+            except:
+                print ("\n\n[red italic][[/red italic][yellow]![/yellow]][red italic][/red italic] [green blink]Saliendo...[/green blink]")
+                sys.exit(1)
         elif data_Send == "clear" or data_Send == "cls" or data_Send == "4":
             try:
                 clear = subprocess.run("powershell clear")
