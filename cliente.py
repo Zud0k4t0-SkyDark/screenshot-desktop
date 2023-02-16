@@ -57,7 +57,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     def menu():
         print ('''
                     [yellow]###[/yellow] [red]MENU[/red] [green]@@@[/green]
-                    [red blink]1)[/red blink] [yellow italic]Sacar Captura del Ordenador[/yellow italic]
+                    [red blink]1)[/red blink] [yellow italic]Capture Image[/yellow italic]
                     [red blink]2)[/red blink] [yellow italic]Send Data[/yellow italic]
                     [red blink]3)[/red blink] [yellow italic]Close Script[/yellow italic]
                     [red blink]4)[/red blink] [yellow italic]Clear Screen[/yellow italic]
