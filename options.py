@@ -19,7 +19,7 @@ path = path.stdout
 def capture_image(image_name):
     # Create Time
     date = datetime.now()
-    hora_now = "{}_{}_{}".format(date.hour,date.minute,date.second)
+    hora_now = "_{}_{}_{}".format(date.hour,date.minute,date.second)
     print (hora_now)
     #D:\Users\_ALUAS~1\AppData\Local\Temp\tmp_img_class
     image_capture = pyautogui.screenshot()
@@ -27,6 +27,7 @@ def capture_image(image_name):
         #path_image = path.strip()+"\{}.png".format(image_name)
         path_image = path.strip()+"\img_class\%s%s.png" % (image_name, str(hora_now))
         image_capture.save(path_image)
+        print(path_image)
     except:
         print("No se pudo enviar")
 

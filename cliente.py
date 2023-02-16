@@ -112,8 +112,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 elif data_option == "3":
                     try:
                         s.send(b'continue')
-                        print (set_image)
-                        print (set_email)
                         s.sendall(set_image.encode("utf-8"))
                         time.sleep(2)
                         s.sendall(set_email.encode("utf-8"))
@@ -168,7 +166,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
              clear_screen()
              menu()
         else:
-            print ("\n[red][[/red][yellow]![/yellow][red]][/red] [cyan]No envies pelotudeces...[/cyan]\n")
+            print ("\n[red][[/red][yellow italic]![/yellow italic][red]][/red] [cyan]No envies pelotudeces...[/cyan]\n")
             time.sleep(2)
             #print (s.getsockname())
 

