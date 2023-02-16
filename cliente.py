@@ -1,4 +1,4 @@
-import socket
+import socket, time
 import signal, sys, subprocess
 from rich import print
 
@@ -74,7 +74,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 if conection_server:
                     pass
             except:
-                print("Hemos perdido Conexion :(")
+                clear_screen()
+                print("\n[red italic][!][/red italic] [yellow italic]Hemos perdido Conexion :([/yellow italic]")
                 sys.exit(1)
         try_connection()
         data_Send = input("~# ")
@@ -111,8 +112,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                         s.send(b'continue')
                         print (set_image)
                         print (set_email)
-                        s.send(set_image.encode("utf-8"))
-                        s.send(set_email.encode("utf-8"))
+                        s.sendall(set_image.encode("utf-8"))
+                        s.sendall(set_email.encode("utf-8"))
                         reponse_data = s.recv(1024).decode("utf-8")
                         print (reponse_data)
                         break
@@ -132,7 +133,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                         sys.exit(1)
 
                 else:
-                    print ("\n\n[red italic][!][/red italic] [yellow]Enter a number[yellow] [purple]\/0-0\/[/purple]")
+                    print ("\n[red italic][!][/red italic] [yellow]Enter a number[yellow] [purple]\/0-0\/[/purple]\n")
                 # Recived Status Image
                 #response_Image = s.recv(1024).decode("utf-8")
                 #print(response_Image)
@@ -154,7 +155,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 s.send(data_Send.encode("utf-8"))
                 sys.exit(1)
             except:
-                print ("\n\n[red italic][[/red italic][yellow]![/yellow]][red italic][/red italic] [green blink]Saliendo...[/green blink]")
+                print ("\n\n[red italic][[/red italic][yellow]![/yellow][red italic]][/red italic] [green blink]Saliendo...[/green blink]")
                 sys.exit(1)
         elif data_Send == "clear" or data_Send == "cls" or data_Send == "4":
             try:
@@ -165,7 +166,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         elif data_Send == "help" or data_Send == "h" or data_Send == "5" or data_Send == "menu":
              menu()
         else:
-            print ("[red][[/red][yellow]![/yellow][red]][/red] [cyan]No envies pelotudeces...[/cyan]")
-            print (s.getsockname())
+            print ("\n[red][[/red][yellow]![/yellow][red]][/red] [cyan]No envies pelotudeces...[/cyan]\n")
+            time.sleep(2)
+            #print (s.getsockname())
 
         
