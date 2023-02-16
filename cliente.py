@@ -91,11 +91,11 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             def menu_image(name_image="patata", email="juanmapipa4@gmail.com"):
                 print ('''
                     Menu of Capture Image: 
-                        [1] Image Name (default={}):
-                        [2] Email   (default={}):
-                        [3] Send Data:
-                        [4] Menu (show Data):
-                        [5] Exit (exit):
+                        [blue][1][/blue] [purple italic]Image Name (default={})[/purple italic]
+                        [blue][2][/blue] [purple italic]Email (default={})[/purple italic]
+                        [blue][3][/blue] [purple italic]Send[/purple italic]
+                        [blue][4][/blue] [purple italic]Show[/purple italic]
+                        [blue][5][/blue] [purple italic]Exit[/purple italic]
                 '''.format(name_image, email))
             menu_image()
             while True:
@@ -117,7 +117,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                         print (reponse_data)
                         break
                     except:
-                        print ("Hemos perdido la Conexión :()")
+                        print ("Hemos perdido la Conexión :(")
                 elif data_option == "4":
                     try:
                         menu_image(set_image, set_email)
@@ -143,9 +143,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             try_connection()
             s.send(data_Send.encode("utf-8"))
             letter_option =  input('''
-                            ######################################
-                                Options ( a,b,c,d )
-                            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                            #######################
+                              Options ( a,b,c,d )
+                            @@@@@@@@@@@@@@@@@@@@@@
             \nChoose option\n==> ''')
             s.send(letter_option.encode("utf-8"))
 
@@ -153,7 +153,10 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.send(data_Send.encode("utf-8"))
             sys.exit(1)
         elif data_Send == "clear" or data_Send == "cls" or data_Send == "4":
-            clear = subprocess.run("powershell clear")
+            try:
+                clear = subprocess.run("powershell clear")
+            except:
+                clear = subprocess.run("clear")
 
         elif data_Send == "help" or data_Send == "h" or data_Send == "5" or data_Send == "menu":
              menu()
