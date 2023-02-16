@@ -56,7 +56,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     ascii_string()
     def menu():
         print ('''\n
-                    [yellow]###[/yellow] [purple italic]MENU[/purple] [green]@@@[/green]
+                    [yellow]###[/yellow] [purple italic]MENU[/purple italic] [green]@@@[/green]
                     \n
                     [red blink]1)[/red blink] [yellow italic]Capture Image[/yellow italic]
                     [red blink]2)[/red blink] [yellow italic]Send Data[/yellow italic]
