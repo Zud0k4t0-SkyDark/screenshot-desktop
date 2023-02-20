@@ -102,7 +102,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             menu_image()
             while True:
                 data_option = input("~(IMAGE)~# ")
-                clear_screen()
                 if data_option == "1":
                     # Set Image
                     set_image = input("Name Image:\n==> ")
@@ -110,6 +109,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                     # Set Email
                     set_email = input("Email\n==> ")
                 elif data_option == "3":
+                    clear_screen()
                     try:
                         s.send(b'continue')
                         s.sendall(set_image.encode("utf-8"))
@@ -120,7 +120,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                         break
                     except:
                         clear_screen()
-                        print ("Hemos perdido la Conexión :(")
+                        print ("\n[red italic][!][/red italic] [yellow italic]Hemos perdido la Conexión[/yellow italic] [cyan italic]:([/cyan italic]")
                 elif data_option == "4":
                     try:
                         menu_image(set_image, set_email)
@@ -132,7 +132,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                         break
                     except:
                         clear_screen()
-                        print("Hemos perdido la Conexión :(")
+                        print ("\n[red italic][!][/red italic] [yellow italic]Hemos perdido la Conexión[/yellow italic] [cyan italic]:([/cyan italic]")
                         sys.exit(1)
 
                 else:
@@ -146,11 +146,12 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         elif data_Send == "2":
             try_connection()
             s.send(data_Send.encode("utf-8"))
-            letter_option =  input('''
-                            #######################
-                              Options ( a,b,c,d )
-                            @@@@@@@@@@@@@@@@@@@@@@
-            \nChoose option\n==> ''')
+            print ('''
+            [red italic]##########################[/red italic]
+                [yellow italic]Options ( a,b,c,d )[/yellow italic]
+            [red italic]@@@@@@@@@@@@@@@@@@@@@@@@@@[/red italic]
+            \n[cyan italic]Choose option[/cyan italic]''')
+            letter_option = input("\n==> ")
             s.send(letter_option.encode("utf-8"))
 
         elif data_Send == "close" or data_Send == "exit" or data_Send == "x" or data_Send == "3":
@@ -158,7 +159,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 s.send(data_Send.encode("utf-8"))
                 sys.exit(1)
             except:
-                print ("\n\n[red italic][[/red italic][yellow]![/yellow][red italic]][/red italic] [green italic]Saliendo...[/green italic]")
+                print ("\n\n[red italic][[/red italic][yellow italic]![/yellow italic][red italic]][/red italic] [green italic]Saliendo...[/green italic]")
                 sys.exit(1)
         elif data_Send == "clear" or data_Send == "cls" or data_Send == "4":
             clear_screen()
