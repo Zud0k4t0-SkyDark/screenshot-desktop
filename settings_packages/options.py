@@ -109,7 +109,7 @@ html = """
 msg_text = MIMEText(html, 'html')
 msg.attach(msg_text)
 
-def send_image(path_image, email="juanmapipa4@gmail.com"):
+def send_image(path_image, email="juanmapipa4@gmail.com", name_image="patata.jpg"):
 
     print ("Path image ==> ",path_image)
     print ("El correo va para => {}".format(email))
@@ -120,7 +120,7 @@ def send_image(path_image, email="juanmapipa4@gmail.com"):
 
     # Para poder poner un nombre a la imagen
     #img = MIMEImage(img_data, name="hola.jpg")
-    img = MIMEImage(img_data)
+    img = MIMEImage(img_data, name=name_image)
     img.add_header('Content-ID', '<image1>')
     msg.attach(img)
 
