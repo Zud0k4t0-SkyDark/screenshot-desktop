@@ -29,16 +29,16 @@ print (f"\n[green italic]Try Connect:[/green italic]\n\n[red italic]Ip[/red ital
 
 def ascii_string():
         print ('''[red]
-                        \****__              ____                                              
-                    |    *****\_      --/ *\-__                                          
-                    /_          (_    ./ ,/----'                                         
-            Art by     \__         (_./  /                                                
-            Zud0k4t0     \__           \___----^__                                       
-                        _/   _                  \                                      
-                    |    _/  __/ )\"\ _____         *\                                    
-                    |\__/   /    ^ ^       \____      )                                   
-                    \___--"                    \_____ )                                  
-                                                    "
+                    \****__              ____                                              
+                |    *****\_      --/ *\-__                                          
+                /_          (_    ./ ,/----'                                         
+        Art by     \__         (_./  /                                                
+        Zud0k4t0     \__           \___----^__                                       
+                    _/   _                  \                                      
+                |    _/  __/ )\"\ _____         *\                                    
+                |\__/   /    ^ ^       \____      )                                   
+                \___--"                    \_____ )                                  
+                                                "
         [/red]''')
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
