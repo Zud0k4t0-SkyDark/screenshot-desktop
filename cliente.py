@@ -95,6 +95,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             ~~[green italic]Menu Capture Image: [/green italic]~~
             [blue][1][/blue] [purple italic]Image Name[/purple italic] [yellow](default={})[/yellow]
             [blue][2][/blue] [purple italic]Email[/purple italic] [yellow](default={})[/yellow]
+            [blue][2][/blue] [purple italic]Asunto[/purple italic] [yellow](default={})[/yellow]
             [blue][3][/blue] [purple italic]Send[/purple italic]
             [blue][4][/blue] [purple italic]Show[/purple italic]
             [blue][5][/blue] [purple italic]Exit[/purple italic]
@@ -107,14 +108,19 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                     set_image = input("Name Image:\n==> ")
                 elif data_option == "2":
                     # Set Email
-                    set_email = input("Email\n==> ")
+                    print ("[red][!][/red][green]Email[/green]")
+                    set_email = input("\n==> ")
                 elif data_option == "3":
                     clear_screen()
                     try:
+                        print ("[red italic][!][/red italic] [green italic]Subject[/green italic]")
+                        subject = input("\n==>")
                         s.send(b'continue')
                         s.sendall(set_image.encode("utf-8"))
                         time.sleep(2)
                         s.sendall(set_email.encode("utf-8"))
+                        time.sleep(2)
+                        s.sendall(subject.encode("utf-8"))
                         reponse_data = s.recv(1024).decode("utf-8")
                         print ("\n[cyan italic]{}[/cyan italic]".format(reponse_data))
                         break
