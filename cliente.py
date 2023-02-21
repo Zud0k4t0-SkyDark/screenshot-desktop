@@ -95,7 +95,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             ~~[green italic]Menu Capture Image: [/green italic]~~
             [blue][1][/blue] [purple italic]Image Name[/purple italic] [yellow](default={})[/yellow]
             [blue][2][/blue] [purple italic]Email[/purple italic] [yellow](default={})[/yellow]
-            [blue][2][/blue] [purple italic]Asunto[/purple italic] [yellow](default={})[/yellow]
             [blue][3][/blue] [purple italic]Send[/purple italic]
             [blue][4][/blue] [purple italic]Show[/purple italic]
             [blue][5][/blue] [purple italic]Exit[/purple italic]
