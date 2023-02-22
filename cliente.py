@@ -42,7 +42,7 @@ def ascii_string():
 ⠀⠀⠀⠀⠀⠂⠀⠀⠀⢸⣿⠀⠀⠀⠠⠂⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                            
-                                                "
+                                                
         [/red]''')
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
