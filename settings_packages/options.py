@@ -4,7 +4,7 @@ import smtplib, pyautogui
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
-import subprocess
+import subprocess, ssl
 from datetime import datetime
 
 # Ruta del path
@@ -12,7 +12,7 @@ path = subprocess.run("powershell $env:tmp", stdout=subprocess.PIPE, universal_n
 path = path.stdout
 # Estanciamos los objetos a usarem = EmailMessage()
 
-msg = MIMEMultipart()
+
 
 
 def capture_image(image_name):
@@ -33,103 +33,117 @@ def capture_image(image_name):
     print ("Captured Image :)")
     return path_image
 
-# Code HTML SEND
 
 html = """
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Simple Email</title>
-	<style>
-		body {
-			font-family: Arial, sans-serif;
-			background-color: #f4f4f4;
-		}
-		.container {
-			max-width: 600px;
-			margin: 0 auto;
-			padding: 20px;
-			background-color: #fff;
-			border-radius: 5px;
-			box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-		}
-		h1 {
-			font-size: 28px;
-			color: #333;
-			margin-top: 0;
-		}
-		p {
-			font-size: 18px;
-			line-height: 1.5;
-			color: #666;
-		}
-		.button {
-			display: inline-block;
-			padding: 10px 20px;
-			background-color: #009688;
-			color: #fff;
-			border-radius: 5px;
-			text-decoration: none;
-			margin-top: 20px;
-		}
-		.button:hover {
-			background-color: #00796b;
-		}
-        a {
-        text-decoration: none;
-        }
-        strong {
-        text-color: black;
-        }
-	</style>
-</head>
-<body>
-	<div class="container">
-		<h1>¡Take your Image!</h1>
-		<p>Buena Image 🤑👍</p>
-		<p>Email send by <strong>Zud0k4t0</strong></p>
-		<ul>
-            <li><strong>Correo electrónico:</strong></br> 
-            <a href="mailto:juanmapipa4@gmail.com">juanmapipa4@gmail.com</a></li>
-            <li><strong>Whatsapp</strong>
-            <a href="wa.me//14094024271"></br>
-            Send Message </a>
-            </li>
-            <li><strong>Teléfono:</strong></br>
-            +1 (409) 402-4271</li>
-		</ul>
-		<p>¡Gracias por tu espera!</p>
-        <img src="cid:image1" width="500px">
-		<a href="https://github.com/Zud0k4t0-SkyDark/screenshot-desktop/" class="button">Ir al Proyecto</a>
-	</div>
-</body>
-</html>
-"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Simple Email</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+            }
+            .container {
+                max-width: 600px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #fff;
+                border-radius: 5px;
+                box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            }
+            h1 {
+                font-size: 28px;
+                color: #333;
+                margin-top: 0;
+            }
+            p {
+                font-size: 18px;
+                line-height: 1.5;
+                color: #666;
+            }
+            .button {
+                display: inline-block;
+                padding: 10px 20px;
+                background-color: #009688;
+                color: #fff;
+                border-radius: 5px;
+                text-decoration: none;
+                margin-top: 20px;
+            }
+            .button:hover {
+                background-color: #00796b;
+            }
+            a {
+            text-decoration: none;
+            }
+            strong {
+            text-color: black;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>¡Take your Image!</h1>
+            <p>Buena Image 🤑👍</p>
+            <p>Email send by <strong>Zud0k4t0</strong></p>
+            <ul>
+                <li><strong>Correo electrónico:</strong></br> 
+                <a href="mailto:juanmapipa4@gmail.com">juanmapipa4@gmail.com</a></li>
+                <li><strong>Whatsapp</strong>
+                <a href="wa.me//14094024271"></br>
+                Send Message </a>
+                </li>
+                <li><strong>Teléfono:</strong></br>
+                +1 (409) 402-4271</li>
+            </ul>
+            <p>¡Gracias por tu espera!</p>
+            <img src="cid:image1" width="500px">
+            <a href="https://github.com/Zud0k4t0-SkyDark/screenshot-desktop/" class="button">Ir al Proyecto</a>
+        </div>
+    </body>
+    </html>
+    """
 
-#msg_text = MIMEText(html, 'html')
-#msg.attach(msg_text)
 
-def send_image(path_image, email="juanmapipa4@gmail.com", name_image="patata.jpg"):
+def send_image(path_image, email="juanmapipa4@gmail.com", subject="Capture Image"):
+    msg = MIMEMultipart()
 
     print ("Path image ==> ",path_image)
+    name_image = path_image.split("\\")[-1]
+    print (name_image)
     print ("El correo va para => {}".format(email))
 
+    # Code HTML SEND
+
+    msg_text = MIMEText(html, 'html')
+    msg.attach(msg_text)
+    
 
     with open(path_image, 'rb') as f:
         img_data = f.read()
+        # Para poder poner un nombre a la imagen
+        img = MIMEImage(img_data, name=name_image)
+        #img = MIMEImage(img_data, name="imagen.jpg")
+        img.add_header('Content-ID', '<image1>')
+        msg.attach(img)
+    
 
-    # Para poder poner un nombre a la imagen
-    #img = MIMEImage(img_data, name="hola.jpg")
-    img = MIMEImage(img_data, name="imagen.jpg")
- #   img.add_header('Content-ID', '<image1>')
-    msg.attach(img)
-
-    msg['Subject'] = 'Capture Image'
-    msg['From'] = 'monolopepe5@gmail.com'
+    
+    msg['From'] = 'manolopepe43333@gmail.com'
     msg['To'] = email
-    smtp = smtplib.SMTP('smtp.gmail.com', 587)
-    smtp.starttls()
-    smtp.login('monolopepe5@gmail.com', 'rqkvlzrtfbvdcgsu')
-    smtp.sendmail('monolopepe5@gmail.com', email, msg.as_string())
-    smtp.quit()
+    msg['Subject'] = subject
+    #smtp = smtplib.SMTP('smtp.gmail.com', 587)
+    #smtp.starttls()
+    #smtp.login('manolopepe43333@gmail.com', 'djeugjlqzjsbdqcv')
+    #smtp.sendmail('manolopepe43333@gmail.com', email, msg.as_string())
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
+        smtp.login('manolopepe43333', 'djeugjlqzjsbdqcv')
+        smtp.sendmail('manolopepe43333', email, msg.as_string())
+        smtp.quit()
+    del msg["To"]
+    del msg["Subject"]
+    del msg["From"]
+    #del msg["To"]
 
