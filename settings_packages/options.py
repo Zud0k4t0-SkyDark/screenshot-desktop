@@ -139,7 +139,7 @@ def send_image(path_image, email="juanmapipa4@gmail.com", subject="Capture Image
     #smtp.sendmail('manolopepe43333@gmail.com', email, msg.as_string())
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
-        smtp.login('manolopepe43333', 'djeugjlqzjsbdqcv')
+        smtp.login('manolopepe43333', '')
         smtp.sendmail('manolopepe43333', email, msg.as_string())
         smtp.quit()
     del msg["To"]
